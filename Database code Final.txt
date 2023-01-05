@@ -1,0 +1,414 @@
+				/*Database coursework SQL CODING*/
+
+/*Dropping a table*/
+
+DROP TABLE Cars;
+DROP TABLE Transaction;
+DROP TABLE Branch;
+DROP TABLE Customer;
+DROP TABLE Branch_Staff;
+DROP TABLE Booking;
+DROP TABLE Staff;
+DROP TABLE Login_ID;
+DROP TABLE Agent;
+
+/* 1. Cars table*/
+CREATE TABLE Cars
+(
+    Car_ID INT NOT NULL,
+    Car_Model VARCHAR (10),
+    Car_Selling_Price INT,
+    Rent_Price INT,
+    Primary Key (Car_ID)
+);
+
+/*2. Customer Table*/
+
+CREATE TABLE Customer
+(
+    Customer_ID INT ,
+    First_Name varchar(15),
+    Last_Name varchar(15),
+    Address varchar (20),
+    Email varchar (30),
+    PRIMARY KEY (Customer_ID)
+);
+
+/*3. Staff Table*/
+CREATE TABLE Staff
+(
+    Staff_ID INT NOT NULL,
+    Staff_Name Varchar(15),
+    Staff_Position Varchar(20),
+    Primary Key (Staff_ID)	
+);
+
+/*4. Branch table*/
+
+CREATE TABLE Branch
+(
+   Branch_ID VARCHAR(15) NOT NULL,
+   Branch_Location VARCHAR(20),
+   PRIMARY KEY (Branch_ID)
+);
+
+/*5. Branch_Staff table*/
+
+CREATE TABLE Branch_Staff
+(
+    Branch_Staff_ID int not null,
+    Staff_ID int,
+    Branch_ID varchar(15),
+    PRIMARY KEY (Branch_Staff_ID),
+    FOREIGN KEY (Staff_ID) REFERENCES Staff(Staff_ID),
+    FOREIGN KEY (Branch_ID) REFERENCES Branch(Branch_ID)
+);
+
+/*6. Transaction table*/
+
+CREATE TABLE Transaction
+( 
+    Transaction_ID INT NOT NULL, 
+    Car_ID INT, 
+    Branch_ID VARCHAR(15), 
+    Final_Price NUMBER(10),
+    PRIMARY KEY (Transaction_ID), 
+    FOREIGN KEY(Car_ID) REFERENCES Cars(Car_ID), 
+    FOREIGN KEY (Branch_ID) REFERENCES Branch(Branch_ID) 
+);
+
+/*7. Agent Table*/
+
+Create table Agent
+(
+    Agent_ID int NOT NULL,
+    Customer_ID int,
+    Rank Varchar(15),
+    Primary key (Agent_ID),
+    Foreign key(Customer_ID) References Customer(Customer_Id) ON DELETE CASCADE
+);
+
+/*8. BOOKING table*/
+CREATE TABLE Booking 
+( 
+    Booking_ID int not null,
+    Type_Of_Booking VARCHAR(15),
+    Transaction_ID INT,
+    Customer_ID int ,
+    Car_ID int,
+    Agent_ID int,
+     City VARCHAR(15),
+     Dates date,
+    PRIMARY KEY (Booking_ID), 
+    FOREIGN KEY(Customer_ID) REFERENCES Customer(Customer_ID) ON DELETE CASCADE, 
+    FOREIGN KEY (Transaction_ID) REFERENCES Transaction(Transaction_ID), 
+FOREIGN KEY (Car_ID) REFERENCES Cars(Car_ID),
+    FOREIGN KEY (Agent_ID) REFERENCES Agent(Agent_ID)
+);
+
+/*9. Login_ID table*/
+   Create table Login_ID
+(
+    Signin_ID int,
+    Staff_ID int,
+    Customer_ID int,
+    Agent_ID int,
+    Primary Key (Signin_ID),
+    Foreign key(Staff_ID) References Staff(Staff_ID),
+    Foreign key(Customer_ID) References Customer(Customer_ID) ON DELETE CASCADE,
+    Foreign key(Agent_ID) References Agent(Agent_ID)
+);
+
+
+
+/*1. Inserting value in Cars table*/
+
+INSERT INTO Cars VALUES(1,'Sedan',1500,150);
+INSERT INTO Cars VALUES(2,'Coupe',1600,160);
+INSERT INTO Cars VALUES(3,'Crossover',1100,154);
+INSERT INTO Cars VALUES(4,'Hatchback',2000,147);
+INSERT INTO Cars VALUES(5,'Pickup',5000,168);
+INSERT INTO Cars VALUES(6,'Van',6000,179);
+INSERT INTO Cars VALUES(7,'Suv',1000,254);
+
+/*2. Inserting value in Customer table*/
+
+INSERT INTO Customer VALUES(1984,'Baljit','Singh','TW3 1HH','singh14@gmail.com');
+INSERT INTO Customer VALUES(1985,'Garima','Khan','E16 2RD','garimakhan143@gmail.com');
+INSERT INTO Customer VALUES(1986,'Sameer','Kharel','TW3 3AS','sameer123@gmail.com');
+INSERT INTO Customer VALUES(1987,'Sanjit','Bohora','SN6 6PG','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1988,'Cristiano','Ronaldo','RT4 5HJ','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1989,'Sanju','Thapa','B54TF','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1990,'Ranjit','Shrestha','VD574KL','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1991,'Pablo','Serrano','Bt5 3DGF','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1992,'Raju','Pariyar','FT5 4SD','pariyar12@gmail.com');
+INSERT INTO Customer VALUES(1993,'Filib','Batis','CTD12 CTD','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1994,'John','Parker','DT4 5DF','pjohn75@outlook.com');
+INSERT INTO Customer VALUES(1995,'Karl','Harwood','TW2 5FG','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1996,'Pedro','Rosendo','TW3 5AD','prosendro@gmail.com');
+INSERT INTO Customer VALUES(1997,'Jane','Ashok','UB7 OE','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1998,'Christoper','Gardner','UB5 7ET','Unknown@gmail.com');
+INSERT INTO Customer VALUES(1999,'Brain','Paul','JH47KL','Unknown@gmail.com');
+
+/*3. Inserting value in Staff table*/
+
+INSERT INTO Staff VALUES (1111,'Suraj','Reception');
+INSERT INTO Staff VALUES (1122,'Peter','Reception');
+INSERT INTO Staff VALUES (1133,'Borish','Sales');
+INSERT INTO Staff VALUES (1144,'Sagar','Cleaner');
+INSERT INTO Staff VALUES (1155,'David','Reception');
+INSERT INTO Staff VALUES (1166,'Tom','Sales');
+INSERT INTO Staff VALUES (1177,'Aayush','Manager');
+INSERT INTO Staff VALUES (1188,'Uzair','Sales');
+INSERT INTO Staff VALUES (1199,'Thomas','Cleaner');
+INSERT INTO Staff VALUES (2211,'Ahmed','Driver');
+INSERT INTO Staff VALUES (2222,'Sohan','Driver');
+INSERT INTO Staff VALUES (2233,'Rajesh','Driver');
+
+/*4. Inserting value in Branch table*/
+
+INSERT INTO Branch VALUES('Branch1','Birmingham');
+INSERT INTO Branch VALUES('Headoffice','London');
+INSERT INTO Branch VALUES('Branch2','Manchester');
+
+/*5. Inserting value in Branch_Staff  table*/
+
+INSERT INTO Branch_Staff VALUES(11,1122,'Branch1');
+INSERT INTO Branch_Staff VALUES(22,1144,'Headoffice');
+INSERT INTO Branch_Staff VALUES(33,1155,'Headoffice');
+INSERT INTO Branch_Staff VALUES(44,1177,'Branch2');
+INSERT INTO Branch_Staff VALUES(55,1188,'Branch1');
+INSERT INTO Branch_Staff VALUES(88,2211,'Headoffice');
+INSERT INTO Branch_Staff VALUES(77,2222,'Branch2');
+INSERT INTO Branch_Staff VALUES(66,1122,'Branch1');
+INSERT INTO Branch_Staff VALUES(99,1166,'Branch2');
+INSERT INTO Branch_Staff VALUES(89,1177,'Branch2');
+INSERT INTO Branch_Staff VALUES(98,2222,'Branch2');
+
+/*6. Inserting value in Transaction table*/
+
+INSERT INTO Transaction VALUES(123,5,'Branch1',100);
+INSERT INTO Transaction VALUES(234,7,'Branch1',150);
+INSERT INTO Transaction VALUES(345,6,'Headoffice',50);
+INSERT INTO Transaction VALUES(456,1,'Headoffice',250);
+INSERT INTO Transaction VALUES(567,3,'Branch2',300);
+INSERT INTO Transaction VALUES(678,4,'Branch2',425);
+INSERT INTO Transaction VALUES(789,2,'Headoffice',200);
+INSERT INTO Transaction VALUES(890,3,'Headoffice',155);
+INSERT INTO Transaction VALUES(901,1,'Branch1',114);
+INSERT INTO Transaction VALUES(112,1,'Branch2',200);
+INSERT INTO Transaction VALUES(223,1,'Headoffice',96);
+INSERT INTO Transaction VALUES(334,2,'Branch1',25);
+
+/*7. Inserting into Agent Table*/
+
+INSERT INTO Agent VALUES(110011,1984,'Silver');
+INSERT INTO Agent VALUES(110022,1985,'Gold');
+INSERT INTO Agent VALUES(110033,1987,'Silver');
+INSERT INTO Agent VALUES(110044,1984,'Gold');
+INSERT INTO Agent VALUES(110055,1991,'Bronze');
+INSERT INTO Agent VALUES(110066,1988,'Bronze');
+INSERT INTO Agent VALUES(110077,1995,'Silver');
+INSERT INTO Agent VALUES(110088,1993,'Gold');
+INSERT INTO Agent VALUES(110099,1992,'Gold');
+INSERT INTO Agent VALUES(220011,1986,'Gold');
+INSERT INTO Agent VALUES(220022,1999,'Bronze');
+INSERT INTO Agent VALUES(220033,1998,'Silver');
+INSERT INTO Agent VALUES(220044,1997,'Silver');
+INSERT INTO Agent VALUES(220055,1989,'Bronze');
+
+/*8. Inserting value in Booking  table*/
+INSERT INTO Booking VALUES(1,'Purchase',123,1984,1,110011,'London','10/Dec/22');
+INSERT INTO Booking VALUES(2,'Lease',234,1985,1,110022,'Manchester','05/Mar/22');
+INSERT INTO Booking VALUES(3,'Lease',901,1986,4,110088,'London','06/Jan/2022');
+INSERT INTO Booking VALUES(4,'Lease',334,1987,7,110033,'Manchester','14/Nov/22');
+INSERT INTO Booking VALUES(5,'Purchase',567,1988,1,220033,'Bolton','18/Sep/22');
+INSERT INTO Booking VALUES(6,'Lease',678,1989,2,220022,'Liverpool','10-Apr/22');
+INSERT INTO Booking VALUES(7,'Purchase',112,1990,1,220011,'Leicester','18/Jul/22');
+INSERT INTO Booking VALUES(8,'Purchase',345,1991,5,110055,'Birmingham','19/May/22');
+INSERT INTO Booking VALUES(9,'Lease',456,1992,6,110088,'Birmingham','18/Aug/22');
+INSERT INTO Booking VALUES(10,'Purchase',789,1993,3,110011,'Leicester','15/Dec/22');
+INSERT INTO Booking VALUES(11,'Purchase',890,1994,3,110088,'London','14/Feb/22');
+INSERT INTO Booking VALUES(12,'Lease',223,1995,4,110022,'Bolton','04/Oct/22');
+INSERT INTO Booking VALUES(13,'Lease',112,1988,6,110066,'Liverpool','15/Jan/22');
+INSERT INTO Booking VALUES(14,'Purchase',123,1987,5,110022,'Bolton','16/Feb/22');
+INSERT INTO Booking VALUES(15,'Purchase',234,1985,2,220022,'Manchester','26/Nov/22');
+
+/*9. Login_ID*/ 
+ 
+INSERT INTO Login_ID Values (19991,null,1984,null); 
+INSERT INTO Login_ID Values (111,1111,null,null); 
+INSERT INTO Login_ID Values (1230,null,null,110011); 
+INSERT INTO Login_ID Values (19992,null,1985,null); 
+INSERT INTO Login_ID Values (112,1122,null,null); 
+INSERT INTO Login_ID Values (2340,null,null,110022); 
+INSERT INTO Login_ID Values (19993,null,1986,null); 
+INSERT INTO Login_ID Values (113,1133,null,null);
+INSERT INTO Login_ID Values (3450,null,null,110033); 
+INSERT INTO Login_ID Values (19994,null,1987,null); 
+INSERT INTO Login_ID Values (114,1144,null,null); 
+INSERT INTO Login_ID Values (4560,null,null,110044); 
+INSERT INTO Login_ID Values (19995,null,1988,null); 
+INSERT INTO Login_ID Values (115,1155,null,null); 
+INSERT INTO Login_ID Values (5670,null,null,110055); 
+INSERT INTO Login_ID Values (19996,null,1989,null); 
+INSERT INTO Login_ID Values (116,1166,null,null); 
+INSERT INTO Login_ID Values (6780,null,null,110066); 
+INSERT INTO Login_ID Values (19997,null,1990,null); 
+INSERT INTO Login_ID Values (117,1177,null,null); 
+INSERT INTO Login_ID Values (7890,null,null,110077); 
+INSERT INTO Login_ID Values (19998,null,1991,null); 
+INSERT INTO Login_ID Values (118,1188,null,null); 
+INSERT INTO Login_ID Values (8900,null,null,110088); 
+INSERT INTO Login_ID Values (19999,null,1992,null); 
+INSERT INTO Login_ID Values (119,1199,null,null); 
+INSERT INTO Login_ID Values (19910,null,1993,null);
+
+/* Query No. 1*/
+
+/*Current price of sedan in all city*/
+Select Car_ID,Car_Model, Car_Selling_Price 
+From Cars where Car_Model='Sedan';
+
+/*Query No. 2*/
+
+/*Maximum Price of car from all model in london and manchester*/
+create view Largest_Price1 as
+Select Transaction_ID,Car_ID, Final_Price as Maximum_Rent_Price from Transaction where Car_ID=
+ some(Select Car_ID from Booking where City in('London','Manchester'));
+
+Create View Max_Price_Views as
+Select * from Largest_Price1 where Maximum_Rent_Price= 
+(Select max(Maximum_Rent_Price) from Largest_Price1);
+
+Create view Cars_Views as
+select Car_ID, Car_Model from Cars;
+
+select Max_Price_Views.Maximum_Rent_Price,Max_Price_Views.Transaction_ID,Cars_Views.Car_Model,Cars_Views.Car_ID
+from Max_Price_Views
+inner join Cars_Views on
+Max_Price_Views.Car_ID = Cars_Views.Car_ID;
+
+
+/*Query No. 3*/
+
+/*Minimum Price of car from all model in london*/
+create view  Minimum_Price_Views as
+select Transaction_ID, Car_ID, Final_Price as Minimum_Rent_Price  from Transaction where Car_ID= any(
+select Car_ID from Booking where City='London');
+
+create View Min_Price as
+Select Transaction_ID, Car_ID, Minimum_Rent_Price from Minimum_Price_Views where Minimum_Rent_Price =(
+Select Min(Minimum_Rent_Price)from Minimum_Price_Views);
+
+Create view Cars_Views as
+select Car_ID, Car_Model from Cars;
+
+select Cars_Views.Car_ID,Cars_Views.Car_Model,Min_Price.Transaction_ID,Min_Price.Minimum_Rent_Price 
+from Cars_Views
+inner Join Min_Price on 
+Cars_Views.Car_ID = Min_Price.Car_ID ;
+
+
+
+/*Query No .4 */
+
+/*List of agent who had made more booking*/
+/*Creating a View first*/
+create view Agent_view as 
+select Agent_ID, count(*) as No_Booking from Booking 
+group by Agent_ID;
+
+select * from Agent where Agent_ID = any (
+Select Agent_ID from Agent_view where No_Booking = all (
+select max(No_Booking) from Agent_view));
+
+/*Query No. 5*/
+
+/*list of customer who booked maximum number of timeslot*/
+
+create view Customer_View As
+select Customer_ID, count(*) as No_Of_Booking_By_Customer from Booking
+Group by Customer_ID;
+Create view Max_Customer_Booking as
+Select * from Customer where Customer_ID= any (
+select Customer_ID from Customer_View where No_Of_Booking_By_Customer =(
+select max(No_Of_Booking_By_Customer) from Customer_View));
+
+Select Max_Customer_Booking.Customer_ID,Max_Customer_Booking.First_Name,Max_Customer_Booking.Last_Name,Max_Customer_Booking.Address,Max_Customer_Booking.Email,Customer_View.No_Of_Booking_By_customer
+from Max_Customer_Booking
+left join Customer_View on
+Max_Customer_Booking.Customer_ID = Customer_View.Customer_ID;
+
+
+/*Query No. 6*/
+
+
+/*List of the having a price more than average price of all model in birmingham*/
+Create view Price_View as
+select * from Transaction where Car_ID = any 
+(select Car_ID from Booking where City = 'Birmingham');
+
+select Car_ID, Car_Model, Car_Selling_Price from Cars where Car_ID= any 
+(select Car_ID from Transaction where Final_Price > =
+(select AVG(Final_Price) from Price_View));
+
+/* Query No .7*/
+
+
+/*Query No. 8*/
+create View Maximum_Price_View as 
+select max(Final_Price) as Final_Price from Transaction where Transaction_ID = any 
+(select Transaction_ID from Booking where Agent_ID = any
+(select Agent_ID From Agent where Rank in ('Gold')))
+union
+select max(Final_Price) as Final_Price from Transaction where Transaction_ID = any 
+(select Transaction_ID from Booking where Agent_ID = any
+(select Agent_ID From Agent where Rank in ('Bronze')));
+
+create view Transaction_Booking_View as
+select Transaction.Final_Price,Booking.Booking_ID,Booking.Agent_ID from Transaction
+left join Booking on Transaction.Transaction_ID = Booking.Transaction_ID;
+
+create view Agent_Price_View as
+select Final_Price,Agent_ID from Transaction_Booking_View where Final_Price = any
+ (select * from Maximum_Price_View);
+
+select Agent_Price_View.Final_Price, Agent_Price_View.Agent_ID, Agent.Rank 
+from Agent_Price_View
+left join Agent on Agent_Price_View.Agent_ID = Agent.Agent_ID;
+
+/*Query No. 9*/
+
+DROP TABLE Deleted_Customer;
+
+CREATE TABLE Deleted_Customer
+(
+  Customer_ID Int,
+  First_Name Varchar(15),
+  Last_Name Varchar(20),
+  Address Varchar(20),
+  Email Varchar(25)
+);
+
+/*Trigger*/
+
+CREATE OR REPLACE TRIGGER ARCHIVE
+AFTER DELETE ON Customer
+FOR EACH ROW
+BEGIN 
+INSERT INTO Deleted_Customer
+(Customer_ID,First_Name,Last_Name,Address, Email)
+VALUES (:OLD.Customer_ID,:OLD.First_Name,:OLD.Last_name,:OLD.Address,:OLD.Email);
+END;
+/
+
+/*Deleting data from Customer Table*/
+
+DELETE FROM Customer where Customer_ID = 1989;
+
+/*Selecting data from Deleted_Customer Table*/
+
+select * from Deleted_Customer;
+
+
